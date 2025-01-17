@@ -36,17 +36,10 @@ jobs:
     needs: build
 
     steps:
-    - name: Set up Kubernetes context
-      uses: azure/setup-kubectl@v1
-      with:
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
     - uses: actions-hub/kubectl@master
       env:
         KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
       with:
         args: |
-          sh -c "
-          kubectl set image deployment/sgalekcom-frontend sgalekcom-frontend=stachu420/sgalekcom-frontend:${{ github.event.head_commit.message }} &&
-          kubectl rollout status deployment/sgalekcom-frontend &&
-          kubectl get pods"
+          "set image deployment/sgalekcom-frontend sgalekcom-frontend=stachu420/sgalekcom-frontend:${{ github.event.head_commit.message }}"
