@@ -1,4 +1,4 @@
-name: Build and push Docker Image to DockerHub
+name: Fully deploy to a website
 
 on:
   push:
@@ -28,6 +28,8 @@ jobs:
       run: |
         commit_message=$(echo "${{ github.event.head_commit.message }}" | tr -d '[:space:]')
         docker push stachu420/sgalekcom-frontend:${commit_message}
+        docker tag stachu420/sgalekcom-frontend:${commit_message} stachu420/sgalekcom-frontend:latest
+        docker push stachu420/sgalekcom-frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -41,6 +43,7 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
+        kubectl cluster-info
         kubectl set image deployment/sgalekcom-frontend sgalekcom-frontend=stachu420/sgalekcom-frontend:${{ github.event.head_commit.message }}
         kubectl rollout status deployment/sgalekcom-frontend
 
