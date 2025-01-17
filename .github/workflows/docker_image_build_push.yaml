@@ -41,9 +41,15 @@ jobs:
       with:
         kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl cluster-info
-        kubectl set image deployment/sgalekcom-frontend sgalekcom-frontend=stachu420/sgalekcom-frontend:${{ github.event.head_commit.message }}
-        kubectl rollout status deployment/sgalekcom-frontend
+    - uses: actions-hub/kubectl@master
+      env:
+        KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+      with:
+        args: get pods
+
+    #- name: Deploy to Kubernetes
+    #  run: |
+    #    kubectl cluster-info
+    #    kubectl set image deployment/sgalekcom-frontend sgalekcom-frontend=stachu420/sgalekcom-frontend:${{ github.event.head_commit.message }}
+    #    kubectl rollout status deployment/sgalekcom-frontend
 
