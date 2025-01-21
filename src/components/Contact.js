@@ -26,7 +26,7 @@ export const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setButtonText("Sending...");
-    let response = await fetch("http://backend:5000/api", {
+    let response = await fetch("https://sgalek-function.azurewebsites.net/api", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
